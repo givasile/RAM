@@ -1,10 +1,8 @@
 import sys, os
-import timeit
+
 sys.path.append(os.path.dirname(os.getcwd()))
 import pythia
 import numpy as np
-import pythia.interaction as interaction
-import pythia.regions as regions
 import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
@@ -77,7 +75,7 @@ def plot_subregions(splits, feat, feat_ram, X_train, model, model_jac, gam, ram)
 
 
 # load dataset
-df = pd.read_csv("./../data/California-Housing/housing.csv")
+df = pd.read_csv("data/California-Housing/housing.csv")
 
 # # drop columns
 # df = df.drop(["instant", "dteday", "casual", "registered", "atemp"], axis=1)

@@ -9,8 +9,6 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
 import matplotlib.pyplot as plt
-import tensorflow_decision_forests as tfdf
-import tensorflow_decision_trees as tfdt
 from interpret.glassbox import ExplainableBoostingRegressor
 import sklearn.metrics as metrics
 import importlib
@@ -100,7 +98,7 @@ def plot_subregions(splits, feat, feat_ram, X_train, model, model_jac, gam, ram)
 
 
 # load dataset
-df = pd.read_csv("./../data/Bike-Sharing-Dataset/hour.csv")
+df = pd.read_csv("data/Bike-Sharing-Dataset/hour.csv")
 
 # drop columns
 df = df.drop(["instant", "dteday", "casual", "registered", "atemp"], axis=1)
@@ -113,20 +111,6 @@ X_df, Y_df, x_mean, x_std, y_mean, y_std = preprocess(df)
 X_train, Y_train, X_test, Y_test = split(X_df, Y_df)
 
 cols = df.columns
-
-# concatentate X and Y
-df_train = pd.concat([X_df, Y_df], axis=1)
-train_ds = tfdf.keras.pd_dataframe_to_tf_dataset(df_train, label="cnt", task=tfdf.keras.Task.REGRESSION)
-model = tfdf.keras.RandomForestModel(task=tfdf.keras.Task.REGRESSION)
-model.fit(train_ds)
-
-
-model.compile(metrics=["mse", "mae", keras.metrics.RootMeanSquaredError()])
-df_test = pd.concat([X_test, Y_test], axis=1)
-test_ds = tfdf.keras.pd_dataframe_to_tf_dataset(df_test, label="cnt", task=tfdf.keras.Task.REGRESSION)
-model.evaluate(train_ds)
-model.evaluate(test_ds)
-model.summary()
 
 # Train - Evaluate - Explain a neural network
 model = keras.Sequential([
@@ -163,66 +147,66 @@ def model_jac(x):
 def model_forward(x):
     return model(x).numpy().squeeze()
 
-# # Explain
-# ale = pythia.RHALE(data=X_train.to_numpy(), model=model_forward, model_jac=model_jac)
-# binning_method = pythia.binning_methods.Greedy(init_nof_bins=200, min_points_per_bin=10)
-# ale.fit(features=3, binning_method=binning_method)
-# ale.plot(feature=3)
-#
-#
-# # find regions
-# reg = pythia.regions.Regions(data=X_train.to_numpy(), model=model_forward, model_jac=model_jac, cat_limit=15)
-# reg.find_splits(nof_levels=2, nof_candidate_splits=10, method="rhale")
-# opt_splits = reg.choose_important_splits(0.2)
-#
-# # check opt_splits for feature s
-# for s in range(len(opt_splits)):
-#     if bool(opt_splits["feat_%s" % s]) is False:
-#         print("Feature: %s, no splits" % cols[s])
-#     else:
-#         for i in range(len(opt_splits["feat_%s" % s])):
-#             print("Feature: %s, level: %s, opt_splits:" % (cols[s], i+1))
-#             print("---> Feature: %s" % (cols[opt_splits["feat_%s" % s][i]["feature"]]))
-#             print("---> Position: %s" % (opt_splits["feat_%s" % s][i]["position"]))
-#             print("---> Candidate Positions: %s" % (opt_splits["feat_%s" % s][i]["candidate_split_positions"]))
-#             print("---> Weighted Heterogeneity before: %s" % (opt_splits["feat_%s" % s][i]["weighted_heter"] + opt_splits["feat_%s" % s][i]["weighted_heter_drop"]))
-#             print("---> Weighted Heterogeneity after : %s" % (opt_splits["feat_%s" % s][i]["weighted_heter"]))
-#
-#
-# # transform data
-# transf = pythia.regions.DataTransformer(splits=opt_splits)
-# X_train_new = transf.transform(X_train.to_numpy())
-# X_test_new = transf.transform(X_test.to_numpy())
-#
-# def fit_eval_gam(title, model, X_train, Y_train, X_test, Y_test):
-#     print(title)
-#     model.fit(X_train, Y_train)
-#     y_train_pred = model.predict(X_train)
-#     print(model.score(X_test, Y_test))
-#     print("RMSE - TRAIN: ", metrics.mean_squared_error(Y_train, y_train_pred, squared=False))
-#     print("MAE - TRAIN", metrics.mean_absolute_error(Y_train, y_train_pred))
-#     print("RMSE - TEST: ", metrics.mean_squared_error(Y_test, model.predict(X_test), squared=False))
-#     print("MAE - TEST", metrics.mean_absolute_error(Y_test, model.predict(X_test)))
-#
-#
-# # fit a RAM (no interactions)
-# title = "\nRAM (no interactions)"
-# ram_no_int = ExplainableBoostingRegressor(interactions=0)
-# fit_eval_gam(title, ram_no_int, X_train_new, Y_train, X_test_new, Y_test)
-#
-# # fit a GAM (no interactions)
-# title = "\nGAM (no interactions)"
-# gam_no_int = ExplainableBoostingRegressor(interactions=0)
-# fit_eval_gam(title, gam_no_int, X_train, Y_train, X_test, Y_test)
-#
-# # fit RAM (with interactions)
-# title = "\nRAM (with interactions)"
-# ram_int = ExplainableBoostingRegressor()
-# fit_eval_gam(title, ram_int, X_train_new, Y_train, X_test_new, Y_test)
-#
-# # fit a GAM (with interactions)
-# title = "\nGAM (with interactions)"
-# gam_int = ExplainableBoostingRegressor()
-# fit_eval_gam(title, gam_int, X_train, Y_train, X_test, Y_test)
-#
-# plot_subregions(splits=reg.important_splits, feat=3, feat_ram=[3,4], X_train=X_train, model=model, model_jac=model_jac, gam=gam_no_int, ram=ram_no_int)
+# Explain
+ale = pythia.RHALE(data=X_train.to_numpy(), model=model_forward, model_jac=model_jac)
+binning_method = pythia.binning_methods.Greedy(init_nof_bins=200, min_points_per_bin=10)
+ale.fit(features=3, binning_method=binning_method)
+ale.plot(feature=3)
+
+
+# find regions
+reg = pythia.regions.Regions(data=X_train.to_numpy(), model=model_forward, model_jac=model_jac, cat_limit=15)
+reg.find_splits(nof_levels=2, nof_candidate_splits=10, method="rhale")
+opt_splits = reg.choose_important_splits(0.2)
+
+# check opt_splits for feature s
+for s in range(len(opt_splits)):
+    if bool(opt_splits["feat_%s" % s]) is False:
+        print("Feature: %s, no splits" % cols[s])
+    else:
+        for i in range(len(opt_splits["feat_%s" % s])):
+            print("Feature: %s, level: %s, opt_splits:" % (cols[s], i+1))
+            print("---> Feature: %s" % (cols[opt_splits["feat_%s" % s][i]["feature"]]))
+            print("---> Position: %s" % (opt_splits["feat_%s" % s][i]["position"]))
+            print("---> Candidate Positions: %s" % (opt_splits["feat_%s" % s][i]["candidate_split_positions"]))
+            print("---> Weighted Heterogeneity before: %s" % (opt_splits["feat_%s" % s][i]["weighted_heter"] + opt_splits["feat_%s" % s][i]["weighted_heter_drop"]))
+            print("---> Weighted Heterogeneity after : %s" % (opt_splits["feat_%s" % s][i]["weighted_heter"]))
+
+
+# transform data
+transf = pythia.regions.DataTransformer(splits=opt_splits)
+X_train_new = transf.transform(X_train.to_numpy())
+X_test_new = transf.transform(X_test.to_numpy())
+
+def fit_eval_gam(title, model, X_train, Y_train, X_test, Y_test):
+    print(title)
+    model.fit(X_train, Y_train)
+    y_train_pred = model.predict(X_train)
+    print(model.score(X_test, Y_test))
+    print("RMSE - TRAIN: ", metrics.mean_squared_error(Y_train, y_train_pred, squared=False))
+    print("MAE - TRAIN", metrics.mean_absolute_error(Y_train, y_train_pred))
+    print("RMSE - TEST: ", metrics.mean_squared_error(Y_test, model.predict(X_test), squared=False))
+    print("MAE - TEST", metrics.mean_absolute_error(Y_test, model.predict(X_test)))
+
+
+# fit a RAM (no interactions)
+title = "\nRAM (no interactions)"
+ram_no_int = ExplainableBoostingRegressor(interactions=0)
+fit_eval_gam(title, ram_no_int, X_train_new, Y_train, X_test_new, Y_test)
+
+# fit a GAM (no interactions)
+title = "\nGAM (no interactions)"
+gam_no_int = ExplainableBoostingRegressor(interactions=0)
+fit_eval_gam(title, gam_no_int, X_train, Y_train, X_test, Y_test)
+
+# fit RAM (with interactions)
+title = "\nRAM (with interactions)"
+ram_int = ExplainableBoostingRegressor()
+fit_eval_gam(title, ram_int, X_train_new, Y_train, X_test_new, Y_test)
+
+# fit a GAM (with interactions)
+title = "\nGAM (with interactions)"
+gam_int = ExplainableBoostingRegressor()
+fit_eval_gam(title, gam_int, X_train, Y_train, X_test, Y_test)
+
+plot_subregions(splits=reg.important_splits, feat=3, feat_ram=[3,4], X_train=X_train, model=model, model_jac=model_jac, gam=gam_no_int, ram=ram_no_int)
