@@ -67,7 +67,7 @@
 \title[RAM: Regionally Additive Models]{Regionally Additive Models: Explainable-by-design models minimizing feature interactions}
 \subtitle{}
 \author[Gkolemis, Vasilis] % (optional)
-{Vasilis Gkolemis\inst{1,2} \and Anargyros Tzerefos\inst{1} \and Theodore Dalamagas\inst{1} \and Eirini Ntoutsi\inst{3} \and Christos Diou\inst{2}}
+{Vasilis Gkolemis\inst{1,2} \and Anargiros Tzerefos\inst{1} \and Theodore Dalamagas\inst{1} \and Eirini Ntoutsi\inst{3} \and Christos Diou\inst{2}}
 
 \institute[]{
   \inst{1} ATHENA Research and Innovation Center
@@ -86,58 +86,52 @@
 %---------------------------------------------------------
 
 \begin{frame}
-  \frametitle{Generalized Additive Models}
-
-  Wikipedia says:
-  \begin{quote}
-    In statistics, a generalized additive model (GAM) is a generalized linear model in which the linear response variable depends linearly on unknown smooth functions of some predictor variables, and interest focuses on inference about these smooth functions.
-    \end{quote}
-  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\end{frame}
-
-\begin{frame}
   \frametitle{Generalized Additive Models (GAMs)}
 
   Wikipedia says:
   \begin{quote}
-    In statistics, a generalized additive model (GAM) is a generalized linear model in which the linear \textcolor<2-4>{red}{response} variable depends \textcolor<3-4>{blue}{linearly} on unknown \textcolor<4>{green}{smooth functions of some predictor variables}, and interest focuses on inference about these smooth functions.
+    In statistics, a generalized additive model (GAM) is a generalized linear model in which the \textcolor<2-4>{red}{response} variable depends \textcolor<3-4>{blue}{linearly} on unknown \textcolor<4>{cyan}{smooth functions of some predictor variables}.
   \end{quote}
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
   \[
     \only<2>{\textcolor{red}{y}}
     \only<3>{\textcolor{red}{y} = \textcolor{blue}{\cdot + \ldots + \cdot}}
-    \only<4>{\textcolor{red}{y} = \textcolor{green}{f_1(x_1)} \textcolor{blue}{+ \ldots +} \textcolor{green}{f_D(x_D)}}
+    \only<4>{\textcolor{red}{y} = \textcolor{cyan}{f_1(x_1)} \textcolor{blue}{+ \ldots +} \textcolor{cyan}{f_D(x_D)}}
   \]
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{GAMs - Interpretability}
-
-  GAMs are called explainable-by-design, why?
-
-  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+  \frametitle{Introductory Example}
 
   Output/target variable:
 
   \begin{itemize}
-  \item \(y_{\mathtt{bike-rentals}}\) the expected number of bike rentals
+  \item \(y_{\mathtt{bike-rentals}}\): the expected number of bike rentals per hour
   \end{itemize}
+
+  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
   Input/covariates:
 
   \begin{itemize}
-  \item \(x_{\mathtt{temperature}}\)
-  \item \(x_{\mathtt{humidity}}\)
-  \item \(x_{\mathtt{is\_weekday}}\)
+  \item \(x_{\mathtt{temperature}}\): temperature per hour
+  \item \(x_{\mathtt{humidity}}\): humidity per hour
+  \item \(x_{\mathtt{is\_weekday}}\): if it is weekday or weekend
   \end{itemize}
+
+  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+  Let's fit a GAM:
+
+  \[y = f_1(x_{\mathtt{temperature}}) + f_2(x_{\mathtt{humidity}}) + f_3(x_{\mathtt{is\_weekday}}) \]
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{GAMs - Interpretability}
+  \frametitle{GAMs - Interpretability (1)}
 
-  GAMs are explainable-by-design, why?
+  $f_1(x_{\mathtt{temperature}})$
 
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
@@ -150,9 +144,9 @@
 
 
 \begin{frame}
-  \frametitle{GAMs - Interpretability}
+  \frametitle{GAMs - Interpretability (2)}
 
-  GAMs are explainable-by-design, why?
+  $f(x_{\mathtt{humidity}})$
 
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
@@ -164,9 +158,9 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{GAMs - Interpretability}
+  \frametitle{GAMs - Interpretability (3)}
 
-  GAMs are explainable-by-design, why?
+  $f(x_{\mathtt{is\_weekday}})$
 
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
@@ -178,57 +172,63 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{GAMs - Interpretability}
+  \frametitle{GAMs - Interpretability (4)}
 
-  GAMs are explainable-by-design, why?
+  GAMs is explainable!
 
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
   \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{./figures/additive_model.png}
+    \includegraphics[width=1\textwidth]{./figures/gam.png}
   \end{figure}
 
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{GAMs - Limitations}
+  \frametitle{GAMs - Limitations/Extensions}
 
-  What if:
+  Limitations:
   \begin{itemize}
-  \item<1-> temperature has different effect on week-days vs weekends
-  \item<2-> Cause: go to work vs go sightseeing
-  \item<3-> Solution 1: \(f(x_{\mathtt{temperature}}, x_{\mathtt{is\_weekday}})\)
-  \item<4-> Solution 2: \(f(x_{\mathtt{temperature}} | weekday )\) vs \(f(x_{\mathtt{temperature}} | weekend )\)
+  \item<2-> temperature has different effect on week-days vs weekends
+  \item<3-> Cause: go to work vs go sightseeing
+  \item<4-> Solution 1: Add pairwise term \(f(x_{\mathtt{temperature}}, x_{\mathtt{is\_weekday}})\) \only<8> {\textcolor{green}{Explainable}}
+  \item<5-> Solution 2: Model two conditional terms
+    \begin{itemize}
+    \item<5-> \(f(x_{\mathtt{temperature}} | weekday )\) \only<8> {\textcolor{green}{Explainable}}
+    \item<5-> \(f(x_{\mathtt{temperature}} | weekend )\) \only<8> {\textcolor{green}{Explainable}}
+    \end{itemize}
   \end{itemize}
 
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+  Extensions:
   \begin{itemize}
-  \item<5-> Solution 1: \(GA^2M\)
-  \item<6-> Solution 2: \(RAM\)
+  \item<6-> \textcolor<8>{green}{Solution 1: \(GA^2M = \) GAM + pairwise interactions (\href{https://www.cs.cornell.edu/~yinlou/papers/lou-kdd13.pdf}{Yin Lou et. al})}
+  \item<7-> \textcolor<8>{green}{Solution 2: \(RAM = \) GAM at subregions}
   \end{itemize}
 
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{GAMs - Limitations}
+  \frametitle{$RA^{(2)}Ms$ go even beyond}
 
-  What if:
+  $GA^2M$s Limitations:
   \begin{itemize}
-  \item<1-> Have you ever rided a bike with cold and humidity?
-  \item<2-> If it is weekend, cool! Netflix is here!
-  \item<3-> But what to do if the only option to go to work?
+  \item<2-> Have you ever ridden a bike in a cold day with humidity?
+  \item<3-> If it is weekend, let's see a movie instead!
+  \item<4-> But if it workday? and bike is the only transport?
+  \item<5-> model $f(x_{\mathtt{temperature}}, x_{\mathtt{humidity}}, x_{\mathtt{is\_weekday}})$? \only<6-9> {\textcolor{red}{Not explainable}}
   \end{itemize}
 
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
-  Solutions:
+  $RA^{(2)}Ms$ solve that:
 
   \begin{itemize}
-  \item<4-> \(f(x_{\mathtt{temperature}}, x_{\mathtt{humidity}} | x_{\mathtt{is\_weekday}})\) \textcolor{red}{\(RA^2M\)}
-    \item<5-> \(f(x_{\mathtt{temperature}}| x_{\mathtt{humidity}} = \{high, low\}, x_{\mathtt{is\_weekday}})\) \textcolor{red}{RAM with two conditions}
+  \item<7-> \(f(x_{\mathtt{temperature}}, x_{\mathtt{humidity}} | x_{\mathtt{is\_weekday}}) \rightarrow RA^2M\) \only<9> {\textcolor{green}{Explainable}}
+    \item<8-> \(f(x_{\mathtt{temperature}}| x_{\mathtt{humidity}} = \{high, low\}, x_{\mathtt{is\_weekday}}) \rightarrow\) RAM with two conditions \only<9> {\textcolor{green}{Explainable}}
   \end{itemize}
 
 \end{frame}
@@ -270,32 +270,33 @@
 
 
 \begin{frame}
-  \frametitle{How RAM works (1)}
+  \frametitle{How RAM works}
 
   3-step approach:
 
   \begin{itemize}
-  \item Fit a Black-box model to capture all complex structures
-    \begin{itemize}
-    \item it should be differentiable
-    \item neural network
+    \item<2-4> Fit a black-box model to learn complex feature interactions
+      \begin{itemize}
+      \item it should be differentiable
+      \item neural network is a good option
+      \end{itemize}
+    \item<3-4> Use a Regional Effect method to isolate the important interactions
+      \begin{itemize}
+      \item \href{https://givasile.github.io/assets/pdf/gkolemis23_rhale.pdf}{RHALE - Gkolemis et. al}
+      \item \href{https://arxiv.org/pdf/2306.00541.pdf}{Feature Interactions - Herbinger et. al}
+      \item finds which features $f(x_i)$ should be split into subregions $f(x_i | x_j \lessgtr \tau)$
+      \end{itemize}
+    \item<4> Fit a univariate function on each detected subregion
+      \begin{itemize}
+      \item learn all $f(x_i | x_j \lessgtr \tau)$
+      \end{itemize}
   \end{itemize}
-\item Use a Regional Effect method to find important interactions
-  \begin{itemize}
-  \item \href{https://givasile.github.io/assets/pdf/gkolemis23_rhale.pdf}{RHALE - Gkolemis et. al}
-  \item \href{https://arxiv.org/pdf/2306.00541.pdf}{Feature Interactions - Herbinger et. al}
-  \end{itemize}
-
-  \item Fit a univariate function on each detected subregion
-
-  \end{itemize}
-
 \end{frame}
 
 \begin{frame}
   \frametitle{Step 1}
   \begin{itemize}
-  \item Fit a Black-box model to capture all complex structures
+  \item Fit a black-box model to capture all complex structures
     \begin{itemize}
     \item it should be differentiable
     \item A neural network is a good option
@@ -306,27 +307,55 @@
 \begin{frame}
   \frametitle{Step 2}
   \begin{itemize}
-  \item Use a Regional Effect method to find important interactions
+  \item Regional Effect method to find important interactions
     \begin{itemize}
     \item \href{https://givasile.github.io/assets/pdf/gkolemis23_rhale.pdf}{RHALE - Gkolemis et. al}
     \item \href{https://arxiv.org/pdf/2306.00541.pdf}{Feature Interactions - Herbinger et. al}
     \end{itemize}
+  \item Idea:
+    \begin{itemize}
+    \item Feature effect is the average effect of each feature $x_s$ on the output $y$
+    \item It is computed by averaging the instance-level effects
+    \item Heterogeneity $\mathcal{H}$ (or uncertainty) measures the deviation of the instance-level effects from the average effect
+    \item we want to split the dataset in subgroups in order to minimize the heterogeneity
+    \end{itemize}
+  \item In mathematical terms:
+    \[\underbrace{\mathcal{H}(f_i(x_i))}_{\mathcal{H}\text{ before split}} >> \underbrace{\mathcal{H}(f_i(x_i | x_j > \tau)) + \mathcal{H}(f_i(x_i | x_j \leq \tau))}_{\text{sum of } \mathcal{H} \text{ after split}}\]
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Step 3}
   \begin{itemize}
-  \item Fit a univariate function on each detected subregion
-    \begin{itemize}
-    \item
-    \end{itemize}
+  \item Step 2 defines a new feature space \(\mathcal{X}^{\mathtt{RAM}}\)
+  \item Every feature is split to $T_s$ subregions which are defined by $\mathcal{R}_{st}$:
   \end{itemize}
+
+\begin{equation}
+\label{eq:ram_feature_space}
+\begin{aligned}
+\mathcal{X}^{\mathtt{RAM}} &= \{x_{st} | s \in \{1, \ldots, D\}, t \in \{1, \ldots, T_s\}\} \\
+x_{st} &= \begin{cases}
+x_s, & \text{if } \mathbf{x_{/s}} \in \mathcal{R}_{st} \\
+0, & \text{otherwise}
+\end{cases}
+\end{aligned}
+\end{equation}
+
+\begin{itemize}
+\item Fit a univariate function on each subregion:
+\end{itemize}
+
+\begin{equation}
+\label{eq:ram_formulation2}
+f^{\mathtt{RAM}}(\mathbf{x})= c + \sum_{s,t} f_{st}(x_{st}) \quad \mathbf{x} \in \mathcal{X}^{\mathtt{RAM}}
+\end{equation}
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Bike Sharing dataset}
-  Predict bike-rentals (on daily basis) given some features of the day
+  Predict bike-rentals per hour
   \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 \begin{figure}[htbp]
     \centering
@@ -357,6 +386,10 @@
 \begin{frame}
   \frametitle{Experimental Results}
 
+  Tested on \href{https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset}{Bike Sharing} and \href{https://inria.github.io/scikit-learn-mooc/python_scripts/datasets_california_housing.html}{California Housing} Datasets.
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
 \begin{table}[htbp]
   \centering
   \label{tab:sample}
@@ -369,11 +402,11 @@
       \hline
       & \textbf{DNN} & \textbf{GAM} & \textbf{RAM} & \textbf{GA}$^2$\textbf{M} & \textbf{RA}$^2$\textbf{M} \\
       \hline
-      Bike (MAE)  & 0.254 & 0.549 & 0.430 & 0.298 & 0.278 \\
-      Bike (RMSE) & 0.389 & 0.734 & 0.563 & 0.438 & 0.412 \\
+      Bike (MAE)  & 0.254 & 0.549 & \textbf{0.430} & 0.298 & \textbf{0.278} \\
+      Bike (RMSE) & 0.389 & 0.734 & \textbf{0.563} & 0.438 & \textbf{0.412} \\
       \hline
-      Housing (MAE)  & 0.373 & 0.600 & 0.553 & 0.554 & 0.533 \\
-      Housing (RMSE) & 0.533 & 0.819 & 0.754 & 0.774 & 0.739 \\
+      Housing (MAE)  & 0.373 & 0.600 & \textbf{0.553} & 0.554 & \textbf{0.533} \\
+      Housing (RMSE) & 0.533 & 0.819 & \textbf{0.754} & 0.774 & \textbf{0.739} \\
   \end{tabular}
 \end{table}
 
@@ -381,17 +414,28 @@
 
 
 \begin{frame}
-  \frametitle{What next?}
-  A lot has to be done!
+  \frametitle{What is next?}
   \begin{itemize}
-  \item Results are only preliminary
+  \item Results are preliminary
     \begin{itemize}
-      \item Experiment with more datasets
-      \item Sometimes wide bins are needed
+      \item Compare $RAM$ vs $GAM$ and $RA^2M$ vs $GA^2M$ in more datasets
+      \item Check robustness on edge cases:
+        \begin{itemize}
+        \item highly correlated features
+        \item limited training examples
+        \end{itemize}
       \end{itemize}
-    \item Can we learn uncertain RAMs?
+
+    \item Can we model uncertainty?
       \begin{itemize}
-      \item How do we model uncertainty?
+      \item Uncertain because we do not model higher-order interactions
+      \item Uncertain about the conditionals, i.e., detected subregions
+      \item Uncertain about the univariate functions we learn
+      \end{itemize}
+
+    \item Could we make it a 1-step process?
+      \begin{itemize}
+        \item a network that automatically learns both the univariate functions and the conditions
       \end{itemize}
   \end{itemize}
 
@@ -401,15 +445,22 @@
 
 
 \begin{frame}
-  \frametitle{Thank you for the attention}
+  \frametitle{Thank you for your attention}
   \begin{itemize}
   \item For more discussion or future ideas on RAM, contact me:
     \begin{itemize}
     \item \href{vgkolemis@athenarc.gr}{vgkolemis@athenarc.gr}
-      \item \href{gkolemis@hua.gr}{gkolemis@hua.gr}
+    \item \href{gkolemis@hua.gr}{gkolemis@hua.gr}
     \end{itemize}
+  \item More info about the paper:
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=.2\textwidth]{figures/publications}
+\end{figure}
   \item Questions?
   \end{itemize}
+
+
 \end{frame}
 
 
