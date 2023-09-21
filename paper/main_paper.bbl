@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -33,6 +33,14 @@ Chun-Hao Chang, Rich Caruana, and Anna Goldenberg.
   learning.
 \newblock \emph{arXiv preprint arXiv:2106.01613}, 2021.
 
+\bibitem[Enouen and Liu(2022)]{enouen2022sparse}
+James Enouen and Yan Liu.
+\newblock Sparse interaction additive networks via feature interaction
+  detection and sparse selection.
+\newblock In Alice~H. Oh, Alekh Agarwal, Danielle Belgrave, and Kyunghyun Cho,
+  editors, \emph{Advances in Neural Information Processing Systems}, 2022.
+\newblock URL \url{https://openreview.net/forum?id=Q6DJ12oQjrp}.
+
 \bibitem[Fanaee-T(2013)]{misc_bike_sharing_dataset_275}
 Hadi Fanaee-T.
 \newblock {Bike Sharing Dataset}.
@@ -47,12 +55,19 @@ Marzyeh Ghassemi, Luke Oakden-Rayner, and Andrew~L Beam.
 \newblock \emph{The Lancet Digital Health}, 3\penalty0 (11):\penalty0
   e745--e750, 2021.
 
-\bibitem[Gkolemis et~al.(2023)Gkolemis, Dalamagas, and Diou]{gkolemis2023dale}
+\bibitem[Gkolemis et~al.(2023{\natexlab{a}})Gkolemis, Dalamagas, and
+  Diou]{gkolemis2023dale}
 Vasilis Gkolemis, Theodore Dalamagas, and Christos Diou.
 \newblock Dale: Differential accumulated local effects for efficient and
   accurate global explanations.
 \newblock In \emph{Asian Conference on Machine Learning}, pages 375--390. PMLR,
-  2023.
+  2023{\natexlab{a}}.
+
+\bibitem[Gkolemis et~al.(2023{\natexlab{b}})Gkolemis, Dalamagas, Ntoutsi, and
+  Diou]{gkolemis2023rhale}
+Vasilis Gkolemis, Theodore Dalamagas, Eirini Ntoutsi, and Christos Diou.
+\newblock Rhale: Robust and heterogeneity-aware accumulated local effects.
+\newblock In \emph{European Conferenece in AI (ECAI)}, 2023{\natexlab{b}}.
 
 \bibitem[Hastie and Tibshirani(1987)]{hastie1987generalized}
 Trevor Hastie and Robert Tibshirani.
@@ -91,5 +106,12 @@ Cynthia Rudin.
   decisions and use interpretable models instead.
 \newblock \emph{Nature machine intelligence}, 1\penalty0 (5):\penalty0
   206--215, 2019.
+
+\bibitem[Xu et~al.(2023)Xu, Bu, Chaudhari, and Barnett]{xu2023sparse}
+Shiyun Xu, Zhiqi Bu, Pratik Chaudhari, and Ian~J Barnett.
+\newblock Sparse neural additive model: Interpretable deep learning with
+  feature selection via group sparsity.
+\newblock In \emph{Joint European Conference on Machine Learning and Knowledge
+  Discovery in Databases}, pages 343--359. Springer, 2023.
 
 \end{thebibliography}

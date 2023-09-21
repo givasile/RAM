@@ -113,25 +113,19 @@ GAMs represent an aggregation of univariate functions, where the overall model c
 Due to this structure, each individual univariate function (component) can be visualized and interpreted independently.
 Consequently, understanding the behavior of the overall model simply requires visualizing all components, each with a one-dimensional plot.
 
-However, GAMs have limited accuracy in cases where the outcome depends on multiple features simultaneously,
-i.e., when the unknown predictive function includes terms that combine multiple features.
-To mitigate this limitation, GA$^2$Ms~\citep{lou2013accurate} extend the traditional GAMs by adding pairwise interactions in their
+However, GAMs have limitations especially in cases where the outcome depends on multiple features simultaneously, i.e., when the unknown predictive function includes terms that combine multiple features. Therefore, there are a lot of methods~\citep{enouen2022sparse, xu2023sparse, lou2013accurate, agarwal2021neural, chang2021node} that extend the traditional GAMs in multiple directions. The most famous direction involves selecting the most important higher-order interactions. GA$^2$Ms~\citep{lou2013accurate} first introduced this line of research extending the traditional GAMs by adding pairwise interactions in their
     formulation, i.e., \(f(\xb) = c + \sum_{s=1}^D f_s(x_s) + \sum_{s=1}^D \sum_{s_1 \neq s_2} f_{s_1 s_2}(x_{s_1}, x_{s_2})\).
 GA$^2$Ms are also x-by-design, because the user can visualize both the first-order ($1D$ plots) and
 second-order (($2D$ plots)) components.
-However, as the number of features increases, the number of second-order interactions grows exponentially,
-making it impractical for users to remember and interpret a large number of two-dimensional plots.
+As the number of features increases, the number of second-order interactions grows exponentially,
+making it impractical for users to interpret a large number of two-dimensional plots.
 Therefore, methods like GA$^2$Ms target on automatically selecting the most significant interaction terms.
 
 Both GAMs and GA$^2$Ms have limitations in modeling interactions of more than two features,
-and as far as we know, there is no existing work that focuses on x-by-design GAM-based models capable of
-representing higher-order interactions.
-The main reason for that is the difficulty of visualizing more than three terms simultaneously,
-which would violate the x-by-design principle.
+and. The main reason behind this limitation is that it is difficult to visualize three or more features on a single plot. Therefore, an approach like that would violate the x-by-design principle.
 
 To address this limitation, we propose a new class of x-by-design models called Regionally Additive Models (RAMs).
-Since in the general case, it is infeasible to visualize terms with more than two variables
-RAMs focus on learning terms with the following conditional structure:
+Since in the general case, it is infeasible to visualize terms with more than two variables, RAMs focus on learning terms with structure:
 $f(x_{s_1} | \when{x_{c_1}}, \when{x_{c_2}}, \cdots)$ for first-degree interactions and
 $f(x_{s_1}, x_{s_2} | \when{x_{c_1}}, \when{x_{c_2}}, \cdots)$ for second-degree interactions.
 The symbol $\when{x_{c_1}}$ denotes the condition that the feature $x_{c_1}$ takes a specific value or belongs to a specific range.
@@ -331,7 +325,7 @@ where one of the proposed methods is the Accumulated Local Effects~\citep{apley2
 We have adopted their approach with two notable modifications.
 First, instead of using the ALE plot, we employ the Differential ALE (DALE) method introduced by \citet{gkolemis2023dale},
 which provides considerable computational advantages when the underlying black-box function is differentiable.
-Second, we utilize variable-size bins, instead of the fixed-size ones in DALE, because the result in a more accurate approximation.
+Second, we utilize variable-size bins, instead of the fixed-size ones in DALE, because the result in a more accurate approximation, as show by \citet{gkolemis2023rhale}.
 
 \paragraph{DALE}
 
