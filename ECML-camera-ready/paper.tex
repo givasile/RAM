@@ -5,12 +5,13 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage[T1]{fontenc}
+\pdfoutput=1
 % T1 fonts will be used to generate the final print and online PDFs,
 % so please use T1 fonts in your manuscript whenever possible.
 % Other font encondings may result in incorrect characters.
 %
 \usepackage{graphicx}
-\graphicspath{{./../code/}} %Setting the graphicspath
+
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -81,21 +82,7 @@
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-Generalized Additive Models (GAMs) are widely used explainable-by-design models in various applications.
-GAMs assume that the output can be represented as a sum of univariate functions, referred to as components.
-However, this assumption fails in ML problems where the output depends on multiple features simultaneously.
-In these cases, GAMs fail to capture the interaction terms of the underlying function, leading to subpar accuracy.
-To (partially) address this issue, we propose Regionally Additive Models (RAMs), a novel class of explainable-by-design models.
-RAMs identify subregions within the feature space where interactions are minimized.
-Within these regions, it is more accurate to express the output as a sum of univariate functions (components).
-Consequently, RAMs fit one component per subregion of each feature instead of one component per feature.
-This approach yields a more expressive model compared to GAMs while retaining interpretability.
-The RAM framework consists of three steps.
-Firstly, we train a black-box model.
-Secondly, using Regional Effect Plots, we identify subregions where the black-box model exhibits near-local additivity.
-Lastly, we fit a GAM component for each identified subregion.
-We validate the effectiveness of RAMs through experiments on both synthetic and real-world datasets.
-The results confirm that RAMs offer improved expressiveness compared to GAMs while maintaining interpretability.
+Generalized Additive Models (GAMs) are widely used explainable-by-design models in various applications.  GAMs assume that the output can be represented as a sum of univariate functions, referred to as components.  However, this assumption fails in ML problems where the output depends on multiple features simultaneously.  In these cases, GAMs fail to capture the interaction terms of the underlying function, leading to subpar accuracy.  To (partially) address this issue, we propose Regionally Additive Models (RAMs), a novel class of explainable-by-design models.  RAMs identify subregions within the feature space where interactions are minimized.  Within these regions, it is more accurate to express the output as a sum of univariate functions (components).  Consequently, RAMs fit one component per subregion of each feature instead of one component per feature.  This approach yields a more expressive model compared to GAMs while retaining interpretability.  The RAM framework consists of three steps.  Firstly, we train a black-box model.  Secondly, using Regional Effect Plots, we identify subregions where the black-box model exhibits near-local additivity.  Lastly, we fit a GAM component for each identified subregion.  We validate the effectiveness of RAMs through experiments on both synthetic and real-world datasets.  The results confirm that RAMs offer improved expressiveness compared to GAMs while maintaining interpretability.
 \keywords{Explainable AI \and Generalized Additive models \and x-by-design}
 \end{abstract}
 %
@@ -745,9 +732,7 @@ While our experimenation demonstrated that even with the current subregion detec
 it may be the case, that for second-order models the optimal subregions are not necessarily those that maximize the additive effect of individual features,
 but rather those that maximize the additive effect of feature pairs.
 
-% \subsubsection{Acknowledgements} Please place your acknowledgments at
-% the end of the paper, preceded by an unnumbered run-in heading (i.e.
-% 3rd-level heading).
+\subsubsection{Acknowledgements} The work leading to these results has been funded by the (a) European Union under Grant Agreement No. 957362, project XMANAI and (b) European Union under Grant Agreement No. 101057821, project RELEVIUM. Views and opinions expressed are however those of the authors and do not necessarily reflect those of the European Union or the granting authority (HaDEA). Neither the European Union nor the granting authority can be held responsible for them.
 
 \bibliography{report}
 
